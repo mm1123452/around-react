@@ -1,11 +1,35 @@
 import React from 'react';
-import Header from './Header'
-import Footer from './Footer'
-import Main from './Main'
+import Header from './Header';
+import Footer from './Footer';
+import Main from './Main';
+import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 function App() {
+
+  const handleAddPlaceClick= (e) => {
+    
+  }
+
   return (
-    <div className="App">
+      <div >
+        <Header/>
+        <Main/>
+        <Footer/>
+        <PopupWithForm 
+          title="New Place"
+          name="add-place"
+          />
+        <ImagePopup/>
+      </div>   
+  );
+}
+
+export default App;
+
+
+/**
+ * <div className="App">
       <div className="page">
         <Header/>
         <Main/>
@@ -73,10 +97,12 @@ function App() {
             </figure>
           </div>
         </aside>
-      </div>
-     
+      </div> 
     </div>
-  );
-}
-
-export default App;
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
