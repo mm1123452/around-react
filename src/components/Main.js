@@ -1,7 +1,9 @@
 import React from "react";
 import {api} from '../utils/api';
+import Card from './Card';
 
 function Main() {
+  const [cards, setCards] = React.useState([])
 //userName
 //userDescription
 //userAvatar
@@ -13,35 +15,25 @@ function Main() {
     
   }
 
-
   React.useEffect(() => {
     api.getProfile()
     .then(({_id, name, avatar, about}) => {
       console.log(_id,name,avatar)
-      // userId = _id
-      // const obj = {name, avatar, id: _id, job:about}
-      // userInfo.setUserInfo(obj)
     })
     .catch( err => {
       console.log(err)
     })
-    // function handleMouseMove(event) {
-    //   setPosition({
-    //     top: event.pageY,
-    //     left: event.pageX,
-    //   });
-    // }
 
-    // list of actions inside one hook
-    // document.addEventListener('mousemove', handleMouseMove);
-    // document.body.classList.add('no-cursor');
-
-    // we're returning a function that remove our effects
-    return () => {
-      //document.body.classList.remove('no-cursor');
-      //document.removeEventListener('mousemove', handleMouseMove);
-    };
-  });
+    api.getInitialCards()
+    .then(res => {
+      console.log('res',res)
+      setCards(res.slice(0,6))
+    })
+    .catch( err => {
+      console.log(err)
+    })
+   
+  },[]);
 
   return (
     <main className="main">
@@ -62,7 +54,18 @@ function Main() {
         <button className="button button_add"></button>
       </section>
       <section className="container">
-        <ul className="places"></ul>
+        <ul className="places">
+          {cards.map( card => {
+            return (
+              <li key={card._id}>
+              <Card 
+                link={card.link}
+                name={card.name}
+                likes={card.likes.length}/>
+              </li>
+            ) 
+          })}
+        </ul>
       </section>
     </main>
   );
