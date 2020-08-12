@@ -2,11 +2,13 @@ import React from "react";
 import {api} from '../utils/api';
 import Card from './Card';
 
-function Main() {
+function Main(props) {
   const [cards, setCards] = React.useState([])
-//userName
-//userDescription
-//userAvatar
+  const [userName, setUserName] = React.useState('')
+  const [userDescription, setDescription] = React.useState('')
+  const [userAvatar, setAvatar] = React.useState()
+  const [userId, setUserId] = React.useState()
+
   const handleEditAvatarClick = (e) => {
      console.log('avatar click')
      
@@ -15,10 +17,16 @@ function Main() {
     
   }
 
+
+
   React.useEffect(() => {
     api.getProfile()
     .then(({_id, name, avatar, about}) => {
-      console.log(_id,name,avatar)
+      setUserName(name)
+      setDescription(about)
+      setAvatar(avatar)
+      setUserId(_id)
+      console.log(_id,name,avatar,about)
     })
     .catch( err => {
       console.log(err)
@@ -39,29 +47,33 @@ function Main() {
     <main className="main">
       <section className="profile">
         <div className="overlay-container">
-          <div className="avatar"></div>
+          <div 
+            className="avatar"
+            style={{backgroundImage: `url(${userAvatar})` }}></div>
           <div className="overlay">
             <div className="edit"
              onClick={handleEditAvatarClick}></div>
           </div>
         </div>
         <div className="profile__info">
-          <h1 className="profile__name">Jacques Cousteau</h1>
+          <h1 className="profile__name">{userName}</h1>
           <button className="button button_edit"
              onClick={handleEditProfileClick}></button>
-          <p className="profile__title">Explorer</p>
+          <p className="profile__title">{userDescription}</p>
         </div>
-        <button className="button button_add"></button>
+        <button className="button button_add" onClick={props.onAddPlace}></button>
       </section>
       <section className="container">
         <ul className="places">
-          {cards.map( card => {
+          {cards.map( ({link, name, likes, owner, _id}) => {
             return (
-              <li key={card._id}>
-              <Card 
-                link={card.link}
-                name={card.name}
-                likes={card.likes.length}/>
+              <li className="place" key={_id}>
+              <Card
+                userId = {userId} 
+                link={link}
+                name={name}
+                likes={likes.length}
+                cardOwnerId={owner._id}/>
               </li>
             ) 
           })}

@@ -1,9 +1,13 @@
 import React from "react";
 
 function PopupWithForm(props) {
+  const popupClass = props.isOpen ? 
+    `popup popup_type_${props.name} popup_opened` :
+    `popup popup_type_${props.name}`
+
   return (
     <div>
-      <aside className={`popup popup_type_${props.name}`}>
+      <aside className={popupClass}>
         <div className="popup__container">
           <form className="popup__form">
             <h2 className="popup__title">{props.title}</h2>
