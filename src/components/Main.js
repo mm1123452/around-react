@@ -63,7 +63,7 @@ function Main(props) {
           {cards.map((data) => {
             return (
               <li className="place" key={data._id}>
-                <Card card={data} userId={userId} onCardClick={props.onCardClick} />
+                <Card card={data} userId={userId} onCardClick={props.onCardClick} onDeleteClick={props.onDelete} />
               </li>
             );
           })}

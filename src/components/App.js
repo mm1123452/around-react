@@ -4,6 +4,7 @@ import Footer from './Footer';
 import Main from './Main';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import { api } from "../utils/api";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
@@ -12,6 +13,7 @@ function App() {
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false)
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false)
   const [selectedCard, setSelectedCard] = React.useState()
+  const [cardId, setCardId] = React.useState()
 
 
   const handleAddPlaceClick = (e) => {
@@ -26,8 +28,9 @@ function App() {
     setIsEditProfilePopupOpen(true)
   }
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (cardId) => {
     setIsConfirmPopupOpen(true)
+    setCardId(cardId)
   }
 
   const handleCardClick = (card) => {
@@ -39,8 +42,25 @@ function App() {
     setIsAddPlacePopupOpen(false)
     setIsEditProfilePopupOpen(false)
     setIsEditAvatarPopupOpen(false)
+    setIsConfirmPopupOpen(false)
     setSelectedCard(null)
     setIsImagePopupOpen(false)
+  
+  }
+
+  const deleteCard = (e) => {
+    e.preventDefault()
+
+    api
+    .deleteCard(cardId)
+    .then(res => {
+      setCardId(null)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+ 
+    closeAllPopups()
   }
 
   const editFormProps = { 
@@ -49,7 +69,8 @@ function App() {
     inputPlaceholder2: "About Me",
     isOpen:isEditProfilePopupOpen,
     onClose:closeAllPopups,
-    buttonText:"Save"
+    buttonText:"Save",
+    disableButton:true
   }
 
   const addPlaceProps = { 
@@ -58,7 +79,9 @@ function App() {
     inputPlaceholder2: "Image link",
     isOpen:isAddPlacePopupOpen,
     onClose:closeAllPopups,
-    buttonText:"Create"
+    buttonText:"Create",
+    disableButton:true
+
   }
 
   const editAvatarProps = { 
@@ -66,7 +89,8 @@ function App() {
     inputPlaceholder1: "Image link",
     isOpen:isEditAvatarPopupOpen,
     onClose:closeAllPopups,
-    buttonText:"Save"
+    buttonText:"Save",
+    disableButton:true
   }
 
 
@@ -74,7 +98,9 @@ function App() {
     title:"Are you sure?", name:"confirm", 
     isOpen:isConfirmPopupOpen,
     onClose:closeAllPopups,
-    buttonText:"Yes"
+    buttonText:"Yes",
+    disableButton:false,
+    handleSubmit: deleteCard
   }
 
   return (  
