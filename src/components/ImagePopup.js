@@ -1,14 +1,20 @@
 import React from "react";
 
-function ImagePopup() {
+function ImagePopup(props) {
+  const {card, isOpen,onClose} = props
+
+  const popupClass = isOpen ? 
+  `popup popup_type_large-image popup_opened` :
+  `popup popup_type_large-image`
+
 
   return (
-    <aside className="popup popup_type_large-image">
+    <aside className={popupClass}>
       <div className="popup__container">
         <figure className="popup__image-figure">
-          <button className="popup__exit"></button>
-          <img className="popup__image" alt="figure" />
-          <figcaption className="popup__image-title"></figcaption>
+          <button className="popup__exit" onClick={onClose}></button>
+          <img className="popup__image" alt="figure" src={card.link}/>
+          <figcaption className="popup__image-title">{card.name}</figcaption>
         </figure>
       </div>
     </aside>
