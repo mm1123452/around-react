@@ -104,7 +104,7 @@ function App() {
   }
 
   return (  
-      <div >
+      <>
         <Header/>
         <Main 
           onAddPlace={handleAddPlaceClick} 
@@ -119,7 +119,7 @@ function App() {
         <PopupWithForm {...confirmProps}/>
         {selectedCard && 
           <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isImagePopupOpen}/>}
-      </div>   
+      </>   
   );
 }
 

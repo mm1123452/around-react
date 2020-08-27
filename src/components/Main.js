@@ -25,8 +25,7 @@ function Main(props) {
     api
       .getInitialCards()
       .then((res) => {
-        //setCards(res.slice(0, 6));
-        setCards(res);
+        setCards(res.slice(0, 6));
       })
       .catch((err) => {
         console.log(err);
@@ -60,9 +59,9 @@ function Main(props) {
       </section>
       <section className="container">
         <ul className="places">
-          {cards.map((data) => {
+          {cards.map((data,index) => {
             return (
-              <li className="place" key={data._id}>
+              <li className="place" key={index}>
                 <Card card={data} userId={userId} onCardClick={props.onCardClick} onDeleteClick={props.onDelete} />
               </li>
             );
