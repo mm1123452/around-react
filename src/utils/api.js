@@ -143,6 +143,15 @@ class Api {
         console.log(err);
       });
     }
+
+
+    changeLikeCardStatus(cardId, LikeState) {
+       if (LikeState) {
+         return this.addLikes(cardId)
+       } else {
+        return this.deleteLikes(cardId)
+       }
+    }
   }
 
   export const api = new Api({

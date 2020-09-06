@@ -4,7 +4,10 @@ import Footer from './Footer';
 import Main from './Main';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import { api } from "../utils/api";
+import {CurrentUserContext} from '../contexts/CurrentUserContext'
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
@@ -14,6 +17,36 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false)
   const [selectedCard, setSelectedCard] = React.useState()
   const [cardId, setCardId] = React.useState()
+  const [currentUser, setCurrentUser] = React.useState({})
+
+
+
+  React.useEffect(() => {
+    api
+      .getProfile()
+      //.then(({ _id, name, avatar, about }) => {
+      .then((res) => {
+        console.log(res)
+        setCurrentUser(res)
+        //console.log('current',currentUser)
+        //setUserName(name);
+        // setDescription(about);
+        // setAvatar(avatar);
+        // setUserId(_id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // api
+    //   .getInitialCards()
+    //   .then((res) => {
+    //     setCards(res.slice(0, 6));
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  }, []);
 
 
   const handleAddPlaceClick = (e) => {
@@ -84,14 +117,6 @@ function App() {
 
   }
 
-  const editAvatarProps = { 
-    title:"Change profile picture", name:"profile-picture", 
-    inputPlaceholder1: "Image link",
-    isOpen:isEditAvatarPopupOpen,
-    onClose:closeAllPopups,
-    buttonText:"Save",
-    disableButton:true
-  }
 
 
   const confirmProps = {
@@ -103,8 +128,21 @@ function App() {
     handleSubmit: deleteCard
   }
 
+  const handleUpdateUser = (profileData) => {
+    api
+    .updateProfileData(profileData)
+    .then(res =>  setCurrentUser(res))
+  }
+
+  const handleUpdateAvatar = (avatar) => {
+    // api
+    // .updateProfileAvatar(avatar)
+    // .then(res =>  setCurrentUser(res))
+  }
+
   return (  
-      <>
+    <>
+      <CurrentUserContext.Provider value={currentUser}>
         <Header/>
         <Main 
           onAddPlace={handleAddPlaceClick} 
@@ -114,12 +152,19 @@ function App() {
           onCardClick={handleCardClick}/>
         <Footer/>
         <PopupWithForm {...addPlaceProps}/>
-        <PopupWithForm {...editFormProps}/>
-        <PopupWithForm {...editAvatarProps}/>
+        <EditProfilePopup 
+          isOpen={isEditProfilePopupOpen} 
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser} />
+        <EditAvatarPopup 
+          isOpen={isEditAvatarPopupOpen} 
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}  />
         <PopupWithForm {...confirmProps}/>
         {selectedCard && 
-          <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isImagePopupOpen}/>}
-      </>   
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isImagePopupOpen}/>}
+      </CurrentUserContext.Provider>
+    </>   
   );
 }
 

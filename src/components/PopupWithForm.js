@@ -1,7 +1,8 @@
 import React from "react";
 
-function PopupWithForm({ title,name, isOpen,onClose,buttonText,inputPlaceholder1,
-  inputPlaceholder2,disableButton,handleSubmit}) {
+function PopupWithForm({ title,name, isOpen,onClose,buttonText,
+  inputPlaceholder1,inputPlaceholder2,input2Type,disableButton,
+  inputValue1, inputValue2, onInputChange, onSubmit}) {
   
     const popupClass = isOpen ? 
     `popup popup_type_${name} popup_opened` :
@@ -9,6 +10,11 @@ function PopupWithForm({ title,name, isOpen,onClose,buttonText,inputPlaceholder1
 
   const disableButtonClass = disableButton ? `popup__button popup__button_disabled`:
   `popup__button`
+
+  const handleSubmit = (e) => {
+    onSubmit(e)
+    onClose()
+  }
 
   return (
     <div>
@@ -23,6 +29,8 @@ function PopupWithForm({ title,name, isOpen,onClose,buttonText,inputPlaceholder1
               placeholder={inputPlaceholder1}
               minLength="1"
               maxLength="30"
+              value={inputValue1}
+              onChange={onInputChange}
               required
             />}
             <span
@@ -31,10 +39,12 @@ function PopupWithForm({ title,name, isOpen,onClose,buttonText,inputPlaceholder1
             ></span>
             {inputPlaceholder2 && <input
               className="popup__input popup__about"
-              type="url"
+              type={input2Type}
               name="link"
               placeholder={inputPlaceholder2}
               pattern="https?://.+"
+              value={inputValue2}
+              onChange={onInputChange}
               required
             />}
             <span
