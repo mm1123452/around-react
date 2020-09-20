@@ -12,15 +12,16 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace}) {
       name: title,
       link: imageLink,
     });
+    e.target.reset();
   };
 
-  const handleInputChange = (e) => {
-    if (e.target.name === "title") {
-      setTitle(e.target.value);
-    } else if (e.target.name === "link") {
-      setImageLink(e.target.value);
-    }
-  };
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  }
+
+  const handleImageChange = (e) => {
+    setImageLink(e.target.value);
+  }
 
   const addPlaceProps = {
     title: "New Place",
@@ -33,7 +34,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace}) {
     buttonText: "Create",
     disableButton: false,
     onSubmit: handleSubmit,
-    onInputChange: handleInputChange,
+    onInputChange1: handleTitleChange,
+    onInputChange2: handleImageChange
   };
 
   return (

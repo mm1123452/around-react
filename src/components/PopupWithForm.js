@@ -2,7 +2,8 @@ import React from "react";
 
 function PopupWithForm({ title,name, isOpen,onClose,buttonText,
   inputPlaceholder1,inputPlaceholder2,input2Type,disableButton,
-  inputValue1, inputValue2, onInputChange, onSubmit, refInput2}) {
+  inputValue1, inputValue2, 
+  onInputChange1, onInputChange2,onSubmit, refInput2}) {
   
     const popupClass = isOpen ? 
     `popup popup_type_${name} popup_opened` :
@@ -14,10 +15,6 @@ function PopupWithForm({ title,name, isOpen,onClose,buttonText,
   const handleSubmit = (e) => {
     onSubmit(e)
     onClose()
-
-    if (name !== 'edit') {
-       e.target.reset()
-    }
   }
 
   return (
@@ -34,8 +31,7 @@ function PopupWithForm({ title,name, isOpen,onClose,buttonText,
               minLength="1"
               maxLength="30"
               value={inputValue1 }
-          
-              onChange={onInputChange}
+              onChange={onInputChange1}
               required
             />}
             <span
@@ -50,7 +46,7 @@ function PopupWithForm({ title,name, isOpen,onClose,buttonText,
               pattern={input2Type === "link"? "https?://.+":null}
               value={inputValue2  }
               ref={refInput2}
-              onChange={onInputChange}
+              onChange={onInputChange2}
               required
             />}
             <span

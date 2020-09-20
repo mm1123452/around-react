@@ -11,16 +11,15 @@ function EditProfilePopup(props) {
     if (name && about) {
       setProfileName(name);
       setDescription(about);
-    }
-   
+    } 
   }, [name,about]);
 
-  const handleInputChange = (e) => {
-    if (e.target.name === 'title') {
-      setProfileName(e.target.value)
-    } else if (e.target.name === 'link') {
-      setDescription(e.target.value);
-    }
+  const handleProfileChange = (e) => {
+    setProfileName(e.target.value)
+  }
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
   }
 
   function handleSubmit(e) {
@@ -44,8 +43,9 @@ function EditProfilePopup(props) {
     disableButton: false,
     inputValue1: profileName,
     inputValue2: description,
-    onInputChange: handleInputChange,
-    onSubmit: handleSubmit
+    onSubmit: handleSubmit,
+    onInputChange1: handleProfileChange ,
+    onInputChange2: handleDescriptionChange 
   };
 
   return (

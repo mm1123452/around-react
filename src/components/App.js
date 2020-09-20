@@ -33,7 +33,6 @@ function App() {
   }, []);
 
 
-
   React.useEffect(() => {
     api
       .getProfile()
@@ -51,6 +50,9 @@ function App() {
     api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {     
       const newCards = cards.map((c) => c._id === card._id ? newCard : c);
       setCards(newCards);
+    })
+    .catch((err) => {
+      console.log(err);
     });
   }
 
@@ -58,7 +60,10 @@ function App() {
     api.deleteCard(cardId).then((res) => {   
        const newCards = cards.filter((c) => c._id !== cardId ? c:null);
        setCards(newCards);
-     });
+     })
+     .catch((err) => {
+      console.log(err);
+    });
   }
 
   const handleAddPlaceClick = (e) => {
@@ -120,22 +125,29 @@ function App() {
     api
     .updateProfileData(profileData)
     .then(res =>  setCurrentUser(res))
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   const handleUpdateAvatar = (data) => {
      api
      .updateProfileAvatar(data.avatar)
      .then(res =>  setCurrentUser(res))
+     .catch((err) => {
+      console.log(err);
+    });
   }
 
   const handleAddPlace = (data) => {
      api
      .postCard(data)
      .then(newCard => { 
-      setCards([...cards,newCard])
-      
+      setCards([...cards,newCard])     
     })
-    
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   return (  

@@ -9,15 +9,12 @@ class Api {
         method: "GET",
         headers: this.headers,
       })
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }
-          return Promise.reject(`Error: ${res.status}`);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
     }
   
     getProfile() {
@@ -25,15 +22,12 @@ class Api {
         method: "GET",
         headers: this.headers,
       })
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }
-          return Promise.reject(`Error: ${res.status}`);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
     }
   
     updateProfileAvatar(avatar) {
@@ -50,9 +44,6 @@ class Api {
         }
         return Promise.reject(`Error: ${res.status}`);
       })
-      .catch((err) => {
-        console.log(err);
-      });
     }
   
     updateProfileData({name,about}) {
@@ -70,11 +61,7 @@ class Api {
         }
         return Promise.reject(`Error: ${res.status}`);
       })
-      .catch((err) => {
-        console.log(err);
-      });
     }
-  
   
     postCard({name,link}) {
       return fetch(`${this.baseUrl}/cards`, {
@@ -91,9 +78,6 @@ class Api {
         }
         return Promise.reject(`Error: ${res.status}`);
       })
-      .catch((err) => {
-        console.log(err);
-      });
     }
   
     deleteCard(cardId) {
@@ -107,9 +91,6 @@ class Api {
         }
         return Promise.reject(`Error: ${res.status}`);
       })
-      .catch((err) => {
-        console.log(err);
-      });
     }
   
     addLikes(cardId) {
@@ -117,15 +98,12 @@ class Api {
         method: "PUT",
         headers: this.headers
       })
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }
-          return Promise.reject(`Error: ${res.status}`);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
     }
   
     deleteLikes(cardId) {
@@ -139,9 +117,6 @@ class Api {
         }
         return Promise.reject(`Error: ${res.status}`);
       })
-      .catch((err) => {
-        console.log(err);
-      });
     }
 
 
