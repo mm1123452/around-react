@@ -1,24 +1,31 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom'
+import { useLocation,Link } from 'react-router-dom'
 
-function Header() {
+function Header({email}) {
   const url = useLocation().pathname
   let option; 
-  let email;
-  
+  let link;
+
   if (url === "/signin") {
     option = "Sign up";
-  } else if (url === "signup") {
+    link = "/signup"
+  } else if (url === "/signup") {
     option = "Log in";
+    link = "/signin"
+  } else if (url === "/")  {
+    option = 'log out'
+    link = "google.com"
   }
 
   return (
     <header className="header">
-      {console.log(url)}
+      {console.log(email)}
       <div className="logo"></div>
       <div className="header__option-container">
         <p className="header__email">{email}</p>
-        <p className="header__option">{option}</p>
+        <p className="header__option"> 
+        <Link to={link} className="login__link" > {option}</Link>
+         </p>
       </div>
       
     </header>

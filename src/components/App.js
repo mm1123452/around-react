@@ -4,7 +4,10 @@ import {
   Route,
   Switch,
   Redirect,
-  useParams
+  useParams,
+  useHistory,
+  withRouter 
+ 
 } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
@@ -18,6 +21,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import { api } from "../utils/api";
+import { auth } from "../utils/auth";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
@@ -36,6 +40,11 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [loggedIn, setloggedIn] = React.useState(false);
+  const [userData, setUserData] = React.useState({data:''});
+  const [token, setToken] = React.useState(localStorage.getItem("token"));
+  let history = useHistory();
+
+
 
   React.useEffect(() => {
     api
@@ -46,6 +55,30 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
+  }, []);
+
+
+  React.useEffect(() => {
+    if (token) {
+      console.log('check token')
+      auth.getContent(token)
+      .then((res) => {       
+        if (res) {
+          const data = {
+            id: res.data._id,
+            email: res.data.email
+          }
+          setloggedIn(true)
+          console.log('data',res)
+          setUserData({...userData,data})
+         
+          history.push("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
   }, []);
 
   React.useEffect(() => {
@@ -159,6 +192,31 @@ function App() {
     closeAllPopups();
   };
 
+  const handleLogin = () => {
+    console.log('handleLogin')
+    setloggedIn(true)
+  }
+
+  const tokenCheck = () => {
+    //const token = localStorage.getItem('token');
+    if (token) {
+      console.log('check token')
+      auth.getContent(token)
+      .then((res) => {       
+        if (res) {
+          const data = {
+            id: res.data._id,
+            email: res.data.email
+          }
+          setloggedIn(true)
+          console.log('data',res)
+         
+          history.push('/');
+        }
+      });
+    }
+  }
+
   const confirmProps = {
     title: "Are you sure?",
     name: "confirm",
@@ -170,10 +228,10 @@ function App() {
   };
 
   return (
+
     <CurrentUserContext.Provider value={currentUser}>
-    
-      <Router>
-        <Header />
+       
+        <Header email={userData.data.email}/>
         <Switch>
           <ProtectedRoute exact path="/" loggedIn={loggedIn}>
             <Main
@@ -213,9 +271,7 @@ function App() {
           </ProtectedRoute>
         
           <Route path="/signin">
-            <div className="loginContainer">
-              <Login />
-            </div>
+              <Login onLogin = {handleLogin}/>
           </Route>
           <Route path="/signup">
             <div className="registerContainer">
@@ -226,9 +282,9 @@ function App() {
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
           </Route>
         </Switch>
-      </Router>
+   
     </CurrentUserContext.Provider>
   );
 }
 
-export default App;
+export default  withRouter(App);
