@@ -20,6 +20,7 @@ import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import InfoTooltip from "./InfoTooltip";
 import { api } from "../utils/api";
 import { auth } from "../utils/auth";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -42,6 +43,8 @@ function App() {
   const [loggedIn, setloggedIn] = React.useState(false);
   const [userData, setUserData] = React.useState({data:''});
   const [token, setToken] = React.useState(localStorage.getItem("token"));
+  const [loginSuccess, setLoginSucces] = React.useState(false);
+  const [showTooltip, setShowTooltip] = React.useState(false);
   let history = useHistory();
 
 
@@ -195,27 +198,28 @@ function App() {
   const handleLogin = () => {
     console.log('handleLogin')
     setloggedIn(true)
+   
   }
 
-  const tokenCheck = () => {
-    //const token = localStorage.getItem('token');
-    if (token) {
-      console.log('check token')
-      auth.getContent(token)
-      .then((res) => {       
-        if (res) {
-          const data = {
-            id: res.data._id,
-            email: res.data.email
-          }
-          setloggedIn(true)
-          console.log('data',res)
+  // const tokenCheck = () => {
+  //   //const token = localStorage.getItem('token');
+  //   if (token) {
+  //     console.log('check token')
+  //     auth.getContent(token)
+  //     .then((res) => {       
+  //       if (res) {
+  //         const data = {
+  //           id: res.data._id,
+  //           email: res.data.email
+  //         }
+  //         setloggedIn(true)
+  //         console.log('data',res)
          
-          history.push('/');
-        }
-      });
-    }
-  }
+  //         history.push('/');
+  //       }
+  //     });
+  //   }
+  // }
 
   const confirmProps = {
     title: "Are you sure?",
@@ -230,8 +234,8 @@ function App() {
   return (
 
     <CurrentUserContext.Provider value={currentUser}>
-       
         <Header email={userData.data.email}/>
+        
         <Switch>
           <ProtectedRoute exact path="/" loggedIn={loggedIn}>
             <Main
@@ -245,6 +249,7 @@ function App() {
               onCardDelete={handleCardDelete}
             />
             <Footer />
+            
             <AddPlacePopup
               isOpen={isAddPlacePopupOpen}
               onClose={closeAllPopups}
@@ -269,14 +274,14 @@ function App() {
               />
             )}
           </ProtectedRoute>
-        
+          
           <Route path="/signin">
               <Login onLogin = {handleLogin}/>
           </Route>
           <Route path="/signup">
-            <div className="registerContainer">
+           
               <Register />
-            </div>
+          
           </Route>
           <Route>
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}

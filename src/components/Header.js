@@ -13,7 +13,7 @@ function Header({email}) {
     option = "Log in";
     link = "/signin"
   } else if (url === "/")  {
-    option = 'log out'
+    option = 'Log out'
     link = "google.com"
   }
 

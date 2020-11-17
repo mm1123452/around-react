@@ -1,5 +1,6 @@
 @import url(./__option-container/header__option-container.css);
 @import url(./__option/header__option.css);
+@import url(./__email/header__email.css);
 
 .header {
   max-height:5.6rem;

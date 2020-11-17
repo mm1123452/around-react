@@ -1,16 +1,17 @@
 import React from "react";
 import {
-  
   Link,
   useHistory
-
 } from 'react-router-dom';
 import { auth } from "../utils/auth";
+import InfoTooltip from "./InfoTooltip";
 
 
-function Login() {
+function Register() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [loginSuccess, setLoginSucces] = React.useState(false);
+  const [showTooltip, setShowTooltip] = React.useState(false);
   let history = useHistory();
  
   const handleEmailChange = (e) => {
@@ -26,22 +27,28 @@ function Login() {
     e.preventDefault()
     console.log('username',email)
     console.log('password',password)
+
+
+    if (!email || !password) {
+      return;
+    }
+
     auth.register(email, password).then((res) => {
       console.log('res',res)
       if(res){
-        // this.setState({
-        //   message: ''
-        // }, () => {
-        //   this.props.history.push('/signin');
-        // })
+    
+        setLoginSucces(true)
+        setShowTooltip(true)
         console.log('success')
-         history.push('/signin');
+         history.push("/signin");
       } else {
 
         // this.setState({
         //   message: 'Something went wrong!'
         // })
         console.log('something went wrong')
+        setLoginSucces(false)
+        setShowTooltip(true)
       }
     });
   }
@@ -75,8 +82,9 @@ function Login() {
         <Link to="/signin" className="login__link"> Log in here!</Link>
       </p>
       </form>
+      {loginSuccess && <InfoTooltip isOpen={showTooltip} success={loginSuccess}/>}
     </div>   
   );
 }
 
-export default Login;
+export default Register;
