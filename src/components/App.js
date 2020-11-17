@@ -4,7 +4,6 @@ import {
   Route,
   Switch,
   Redirect,
-  useParams,
   useHistory,
   withRouter 
  
@@ -201,25 +200,15 @@ function App() {
    
   }
 
-  // const tokenCheck = () => {
-  //   //const token = localStorage.getItem('token');
-  //   if (token) {
-  //     console.log('check token')
-  //     auth.getContent(token)
-  //     .then((res) => {       
-  //       if (res) {
-  //         const data = {
-  //           id: res.data._id,
-  //           email: res.data.email
-  //         }
-  //         setloggedIn(true)
-  //         console.log('data',res)
-         
-  //         history.push('/');
-  //       }
-  //     });
-  //   }
-  // }
+
+  const handleLogout = () => {
+    setloggedIn(false);
+    setUserData({data:''})
+    localStorage.removeItem("token");
+    history.push("/signin");
+  }
+
+
 
   const confirmProps = {
     title: "Are you sure?",
@@ -234,8 +223,7 @@ function App() {
   return (
 
     <CurrentUserContext.Provider value={currentUser}>
-        <Header email={userData.data.email}/>
-        
+        <Header email={userData.data.email} onLogout={handleLogout}/>
         <Switch>
           <ProtectedRoute exact path="/" loggedIn={loggedIn}>
             <Main
