@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d26ddcc8a0b6cdc2d565b4fcbdad331d",
+    "revision": "879ebc6481f2be6888e4f25c13afc756",
     "url": "/around-react/index.html"
   },
   {
-    "revision": "87116083cd5a1304a5fe",
-    "url": "/around-react/static/css/main.92b2ad64.chunk.css"
+    "revision": "4b862790d49b0784caf6",
+    "url": "/around-react/static/css/main.bc37d95e.chunk.css"
   },
   {
-    "revision": "f1665753c8d1f94bd9cd",
-    "url": "/around-react/static/js/2.6ee419ee.chunk.js"
+    "revision": "0207a1d89e44d5b45524",
+    "url": "/around-react/static/js/2.900f7df5.chunk.js"
   },
   {
-    "revision": "e88a3e95b5364d46e95b35ae8c0dc27d",
-    "url": "/around-react/static/js/2.6ee419ee.chunk.js.LICENSE.txt"
+    "revision": "c64c486544348f10a6d6c716950bc223",
+    "url": "/around-react/static/js/2.900f7df5.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "87116083cd5a1304a5fe",
-    "url": "/around-react/static/js/main.d631430c.chunk.js"
+    "revision": "4b862790d49b0784caf6",
+    "url": "/around-react/static/js/main.f764d07a.chunk.js"
   },
   {
     "revision": "26160d15b3a5de0a48a5",
@@ -64,12 +64,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/around-react/static/media/editButton.26bef56b.svg"
   },
   {
+    "revision": "4072126c596bd9485c6e9601f6d4d35d",
+    "url": "/around-react/static/media/error.4072126c.svg"
+  },
+  {
     "revision": "a25a6d448fc5803816c132f757e1e972",
     "url": "/around-react/static/media/heart.a25a6d44.svg"
   },
   {
     "revision": "6abc2d399c1aec00346df02e09116c0c",
     "url": "/around-react/static/media/heartFilled.6abc2d39.svg"
+  },
+  {
+    "revision": "e38b395c190826b3bf6d78baff1415a0",
+    "url": "/around-react/static/media/success.e38b395c.svg"
   },
   {
     "revision": "a45e3211694e4e804aa833c8ff393d17",
