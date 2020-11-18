@@ -19,15 +19,13 @@ function Header({email,onLogout}) {
 
   return (
     <header className="header">
-      {console.log(email)}
       <div className="logo"></div>
       <div className="header__option-container">
         <p className="header__email">{email}</p>
         <p className="header__option"> 
         <Link to={link} className="login__link" onClick={onLogout} > {option}</Link>
          </p>
-      </div>
-      
+      </div>  
     </header>
   )
 }

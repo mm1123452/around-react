@@ -12,7 +12,7 @@ class Auth {
       })
       .then((response) => {
         try {
-          if (response.status === 200){
+          if (response.status === 201){
             return response.json();
           }
         } catch(e){
@@ -41,12 +41,10 @@ class Auth {
         }
       })
       .then((res) => {
-        //console.log('token',res)
         if (res.token) {
-          localStorage.setItem('token', res.token);
           return res;
         } else {
-          return;
+          return Promise.reject(`Error: ${res.status}`);
         }
       })
       .catch((err) => console.log(err));
@@ -56,7 +54,6 @@ class Auth {
       return fetch(`${this.baseUrl}/users/me`, {
         method: 'GET',
         headers: {...this.headers, "Authorization" : `Bearer ${token}`} 
-        
       })
       .then((response) => {
         try {
@@ -68,7 +65,7 @@ class Auth {
         }
       })
       .then((res) => {
-          return res;     
+        return res;     
       })
       .catch((err) => console.log(err));
     }; 

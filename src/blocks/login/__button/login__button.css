@@ -5,9 +5,12 @@ padding:0;
 font-size:1.8rem;
 line-height:2.178rem;
 margin: 200px 0 0 0;
+background-color:#FFF;
+border:none;
    }
    
 
    .login__button:hover {
       cursor:pointer;
+      opacity:.85;
    }

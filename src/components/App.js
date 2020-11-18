@@ -1,13 +1,11 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
   Route,
   Switch,
   Redirect,
   useHistory,
   withRouter 
- 
-} from "react-router-dom";
+ } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
@@ -62,7 +60,6 @@ function App() {
 
   React.useEffect(() => {
     if (token) {
-      console.log('check token')
       auth.getContent(token)
       .then((res) => {       
         if (res) {
@@ -71,7 +68,6 @@ function App() {
             email: res.data.email
           }
           setloggedIn(true)
-          console.log('data',res)
           setUserData({...userData,data})
          
           history.push("/");
@@ -81,7 +77,8 @@ function App() {
         console.log(err);
       });
     }
-  }, []);
+    // eslint-disable-next-line
+  }, [token]);
 
   React.useEffect(() => {
     api
@@ -148,6 +145,7 @@ function App() {
     setIsConfirmPopupOpen(false);
     setSelectedCard(null);
     setIsImagePopupOpen(false);
+    setShowTooltip(false)
   };
 
   const handleAddPlace = (data) => {
@@ -194,12 +192,31 @@ function App() {
     closeAllPopups();
   };
 
-  const handleLogin = () => {
-    console.log('handleLogin')
-    setloggedIn(true)
-   
+  const handleLogin = (email, password) => {
+    auth.signin(email, password)
+    .then((res) => {
+      if(res){
+        localStorage.setItem('token', res.token);
+        setToken(res.token)
+        setloggedIn(true)
+        history.push('/');
+      } 
+    });
   }
 
+  const handleRegister = (email,password) => {
+    auth.register(email, password)
+    .then((res) => {
+      if(res){
+        setLoginSucces(true)
+        setShowTooltip(true)
+         history.push("/signin");
+      } else {
+        setLoginSucces(false)
+        setShowTooltip(true)
+      }
+    });
+  }
 
   const handleLogout = () => {
     setloggedIn(false);
@@ -207,8 +224,6 @@ function App() {
     localStorage.removeItem("token");
     history.push("/signin");
   }
-
-
 
   const confirmProps = {
     title: "Are you sure?",
@@ -221,7 +236,6 @@ function App() {
   };
 
   return (
-
     <CurrentUserContext.Provider value={currentUser}>
         <Header email={userData.data.email} onLogout={handleLogout}/>
         <Switch>
@@ -262,20 +276,17 @@ function App() {
               />
             )}
           </ProtectedRoute>
-          
           <Route path="/signin">
               <Login onLogin = {handleLogin}/>
           </Route>
-          <Route path="/signup">
-           
-              <Register />
-          
+          <Route path="/signup">          
+            <Register  onRegister = {handleRegister} />
           </Route>
           <Route>
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
           </Route>
         </Switch>
-   
+       <InfoTooltip isOpen={showTooltip} success={loginSuccess} onClose={closeAllPopups}/>
     </CurrentUserContext.Provider>
   );
 }

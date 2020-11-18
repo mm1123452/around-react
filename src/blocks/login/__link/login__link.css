@@ -4,3 +4,6 @@
     color:#FFF;
   }
   
+  .login__link:hover {
+    opacity:.6;
+  }
